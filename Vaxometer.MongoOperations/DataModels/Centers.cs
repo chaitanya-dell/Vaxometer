@@ -1,0 +1,94 @@
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Vaxometer.MongoOperations.DataModels
+{
+    //[BsonCollection("centers")]
+    //public class Centers : ICenter
+    //{
+    //    [BsonId]
+    //    [BsonRepresentation(BsonType.ObjectId)]
+    //    public ObjectId Id { get; set; }
+
+    //    [BsonElement("center_id")]
+    //    public int center_id { get; set; }
+
+    //    [BsonElement("name")]
+    //    public string name { get; set; }
+
+    //    [BsonElement("state_name")]
+    //    public string state_name { get; set; }
+
+    //    [BsonElement("district_name")]
+    //    public string district_name { get; set; }
+
+    //    [BsonElement("block_name")]
+    //    public string block_name { get; set; }
+
+    //    [BsonElement("pincode")]
+    //    public int pincode { get; set; }
+    //    // public int lat { get; set; }
+    //    //public int long { get; set; }
+
+    //    [BsonElement("from")]
+    //    public string from { get; set; }
+
+    //    [BsonElement("to")]
+    //    public string to { get; set; }
+
+    //    [BsonElement("fee_type")]
+    //    public string fee_type { get; set; }
+
+    //    [BsonElement("fee_type")]
+    //    public IList<Sessions> sessions { get; set; }
+
+    //    [BsonElement("fee_type")]
+    //    public IList<Vaccine_fees> vaccine_fees { get; set; }
+    //}
+
+    [BsonCollection("centers")]
+    public class Centers : ICenter
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public ObjectId Id { get; set; }
+        public int center_id { get; set; }
+        public string name { get; set; }
+        public string address { get; set; }
+        public string state_name { get; set; }
+        public string district_name { get; set; }
+        public string block_name { get; set; }
+        public int pincode { get; set; }
+        public int lat { get; set; }
+        public int @long { get; set; }
+        public string from { get; set; }
+        public string to { get; set; }
+        public string fee_type { get; set; }
+        public IList<Sessions> sessions { get; set; }
+        public IList<Vaccine_fees> vaccine_fees { get; set; }
+
+    }
+
+    [BsonCollection("Sessions")]
+    public class Sessions
+    {
+        public string session_id { get; set; }
+        public string date { get; set; }
+        public string available_capacity { get; set; }
+        public int min_age_limit { get; set; }
+        public string vaccine { get; set; }
+        public IList<string> slots { get; set; }
+
+    }
+
+    [BsonCollection("Vaccine_fees")]
+    public class Vaccine_fees
+    {
+        public string vaccine { get; set; }
+        public string fee { get; set; }
+    }
+
+}
