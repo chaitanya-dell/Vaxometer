@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vaxometer.Models;
 using Vaxometer.ResponseModels;
 
 namespace Vaxometer.Manager
@@ -9,6 +10,8 @@ namespace Vaxometer.Manager
     public interface IVexoManager
     {
         public Task<bool> RefershData();
+
+        public Task<IEnumerable<Centers>> GetCentersByPinCode(int pincode);
 
         public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrs();
 

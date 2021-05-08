@@ -10,8 +10,9 @@ namespace Vaxometer.Repository
     {
         bool Save(CentersData centersData);
         bool CreateOne(MongoOperations.DataModels.Centers request);
-        bool CreateMany(MongoOperations.DataModels.Centers request);
+        bool CreateMany(List<MongoOperations.DataModels.Centers> request);
 
+        public Task<IEnumerable<Centers>> CentersByPinCode(int pincode);
         public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor18yrs();
     }
 }

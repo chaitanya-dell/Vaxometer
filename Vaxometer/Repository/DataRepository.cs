@@ -7,6 +7,7 @@ using Vaxometer.MongoOperations;
 using Vaxometer.MongoOperations.DbSettings;
 using Vaxometer.MongoOperations.DataModels;
 using Vaxometer.Models;
+using AutoMapper;
 
 namespace Vaxometer.Repository
 {
@@ -15,14 +16,16 @@ namespace Vaxometer.Repository
         private IMongoRepository<MongoOperations.DataModels.Centers> _mongoCenters;
         private readonly IVexoDatabaseSettings _settings;
         private readonly ILogger<DataRepository> _logger;
+        private readonly IMapper _mapper;
 
         public DataRepository(
             IVexoDatabaseSettings settings, ILogger<DataRepository> logger,
-            IMongoRepository<MongoOperations.DataModels.Centers> mongoRepository)
+            IMongoRepository<MongoOperations.DataModels.Centers> mongoRepository, IMapper mapper)
         {
             _settings = settings;
             _logger = logger;
             _mongoCenters = mongoRepository;
+            _mapper = mapper;
         }
 
         public bool Save(CentersData request)
@@ -55,10 +58,28 @@ namespace Vaxometer.Repository
             }
         }
 
+
+        public async Task<IEnumerable<Models.Centers>> CentersByPinCode(int pincode)
+        {
+            _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+            var dataModel = await _mongoCenters.CentersByPinCode(pincode);
+            var collection = new List<Models.Centers>();
+            foreach (var doc in dataModel)
+                collection.Add(_mapper.Map<Models.Centers>(doc));
+            return collection;
+        }
+
+        private IEnumerable<Models.Centers> MapToApiModel(IEnumerable<MongoOperations.DataModels.Centers> dataModel)
+        {
+            
+            throw new NotImplementedException();
+        }
+
         public bool CreateOne(MongoOperations.DataModels.Centers request)
         {
             try
             {
+                _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
                 _mongoCenters.Create(request);
                 return true;
             }
@@ -69,11 +90,12 @@ namespace Vaxometer.Repository
             }
         }
 
-        public bool CreateMany(MongoOperations.DataModels.Centers request)
+        public bool CreateMany(List<MongoOperations.DataModels.Centers> request)
         {
             try
             {
-                _mongoCenters.Create(request);
+                _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+                _mongoCenters.CreateMany(request);
                 return true;
             }
             catch (Exception ex)
@@ -103,5 +125,7 @@ namespace Vaxometer.Repository
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

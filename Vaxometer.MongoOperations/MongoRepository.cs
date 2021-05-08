@@ -7,8 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Vaxometer.MongoOperations.DbSettings;
-
-
+using Vaxometer.MongoOperations.DataModels;
 
 namespace Vaxometer.MongoOperations
 {
@@ -59,10 +58,26 @@ namespace Vaxometer.MongoOperations
             _collection.InsertMany(items);
         }
 
-
-        public virtual IQueryable<T> AsQueryable()
+        public async Task<IEnumerable<T>> CentersByPinCode(int pincode)
         {
-            return _collection.AsQueryable();
+            var builder = Builders<T>.Filter;
+            var query = builder.Eq("pincode", pincode); 
+            return await _collection.Find(query).ToListAsync();
+        }
+
+
+
+
+        public virtual IEnumerable<Centers> GetBangaloreCenterFor18yrs()
+        {
+            ////var filter = Builders<BsonDocument>.Filter.Eq("min_age_limit", 18);
+            ////var filter = Builders<T>.Filter.Eq(doc => doc.Id, objectId);
+            //var filter = Builders<Sessions>.Filter.Where(new[]
+            //{
+            //    new ExpressionFilterDefinition<Sessions>(x => x.min_age_limit == 18),
+            //});
+            //return _collection.Find(filter).ToEnumerable();
+            throw new NotImplementedException();
         }
 
         public virtual IEnumerable<T> FilterBy(Expression<Func<T, bool>> filterExpression)
@@ -123,6 +138,11 @@ namespace Vaxometer.MongoOperations
         }
 
         public Task ReplaceOneAsync(T document)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<T> AsQueryable()
         {
             throw new NotImplementedException();
         }

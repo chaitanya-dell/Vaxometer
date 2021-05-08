@@ -13,6 +13,8 @@ namespace Vaxometer.MongoOperations
         void Create(T item);
         void CreateMany(List<T> items);
 
+        Task<IEnumerable<T>> CentersByPinCode(int pincode);
+
 
         IQueryable<T> AsQueryable();
 

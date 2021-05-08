@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vaxometer.Models;
 using Vaxometer.Repository;
 using Vaxometer.ResponseModels;
 
@@ -26,8 +27,15 @@ namespace Vaxometer.Manager
         public async Task<bool> RefershData()
         {
             var centersData = await _cowinRepository.GetCentersForDistrict_294_265();
-            bool isUpdated = _dataRepository.Save(centersData);
-            return isUpdated;
+#if DEBUG
+            return true;
+#endif
+            return _dataRepository.Save(centersData);
+        }
+
+        public async Task<IEnumerable<Centers>> GetCentersByPinCode(int pincode)
+        {
+            return await _dataRepository.CentersByPinCode(pincode);
         }
 
         public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrs()
@@ -51,7 +59,6 @@ namespace Vaxometer.Manager
             throw new NotImplementedException();
         }
 
-       
-
+      
     }
 }

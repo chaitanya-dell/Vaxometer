@@ -83,7 +83,7 @@ namespace Vaxometer.Repository
             {
                 session_id = "8c096da1-b6b6-4fd4-a2a1-b9610807f16a",
                 date = "08-05-2021",
-                available_capacity = "49",
+                available_capacity = 49,
                 min_age_limit = 45,
                 vaccine = "COVISHIELD",
                 slots = new List<string>() { "09:00AM-11:00AM","11:00AM-01:00PM"}

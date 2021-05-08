@@ -20,11 +20,19 @@ namespace Vaxometer.Controllers
         }
 #if DEBUG
         [HttpPost("CreateOne")]
-        public IActionResult  CreateOnceCenter(Centers data)
+        public IActionResult  CreateOneCenter(Centers data)
         {
             var response =  _dataRepository.CreateOne(data);
+            return Ok(response);
+        }
+
+        [HttpPost("CreateMany")]
+        public IActionResult CreateManyCenter(List<Centers> data)
+        {
+            var response = _dataRepository.CreateMany(data);
             return Ok(response);
         }
 #endif
     }
 }
+ 

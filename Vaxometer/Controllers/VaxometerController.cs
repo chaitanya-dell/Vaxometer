@@ -26,6 +26,16 @@ namespace Vaxometer.Controllers
             _httpContextAccessor = httpContext;
         }
 
+        /// <summary>Gets the List of Centers by pincode</summary>
+        [HttpGet("Centers/pincode/{pincode}")]
+        public async Task<IActionResult> GetBangaloreCenterFor18yrs(int pincode)
+        {
+            var response = await _vaxoManager.GetCentersByPinCode(pincode);
+            if (response == null)
+                await BuildHttpResponseForNotFound("Centers not found");
+            return Ok(response);
+        }
+
         /// <summary>Gets the List of Centers where vaccination started for 18+</summary>
         [HttpGet("Centers/18")]
         public async Task<IList<VaccineCenter>> GetBangaloreCenterFor18yrs()
