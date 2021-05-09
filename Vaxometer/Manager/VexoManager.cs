@@ -56,15 +56,15 @@ namespace Vaxometer.Manager
             return await _dataRepository.GetBangaloreCenterFor45yrs();
         }
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin()
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrsCovaxin()
         {
-            throw new NotImplementedException();
+            return await _dataRepository.GetBangaloreCenterFor18yrsCovaxin();
         }
 
         
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin()
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrsCovaxin()
         {
-            throw new NotImplementedException();
+            return await _dataRepository.GetBangaloreCenterFor45yrsCovaxin();
         }
 
       

@@ -15,10 +15,10 @@ namespace Vaxometer.Manager
 
         public Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrs();
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin();
-
         public Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrs();
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin();
+        public Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrsCovaxin();
+
+        public Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrsCovaxin();
     }
 }

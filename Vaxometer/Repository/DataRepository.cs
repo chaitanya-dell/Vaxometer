@@ -110,7 +110,15 @@ namespace Vaxometer.Repository
             }
         }
 
-       
+        Task<IEnumerable<Models.Centers>> IDataRepository.GetBangaloreCenterFor18yrsCovaxin()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Models.Centers>> IDataRepository.GetBangaloreCenterFor45yrsCovaxin()
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor18yrsCovaxin()
         {
@@ -124,6 +132,6 @@ namespace Vaxometer.Repository
             throw new NotImplementedException();
         }
 
-    
+       
     }
 }

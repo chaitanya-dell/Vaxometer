@@ -9,5 +9,7 @@ namespace Vaxometer.ApplicationSettings
     {
         public string CanlendarUrl294 { get; set; }
         public string CanlendarUrl265 { get; set; }
+        public string CanlendarUrlByDistrict { get; set; }
+        
     }
 }

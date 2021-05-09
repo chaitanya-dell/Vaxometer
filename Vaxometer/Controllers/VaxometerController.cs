@@ -58,23 +58,23 @@ namespace Vaxometer.Controllers
 
         /// <summary> NOT IMPLEMENTED : Gets the List of Centers where Covaxin started for 18+</summary>
         [HttpGet("Centers/18/Covaxin")]
-        public async Task<IList<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin()
+        public async Task<IActionResult> GetBangaloreCenterFor18yrsCovaxin()
         {
             var response = await _vaxoManager.GetBangaloreCenterFor18yrsCovaxin();
             if (response == null)
                 await BuildHttpResponseForNotFound("Centers not found");
-            return response;
+            return Ok(response);
         }
 
-       
-        /// <summary>Gets the List of Centers where Covaxin started for 45+</summary>
+
+        /// <summary> NOT IMPLEMENTED :Gets the List of Centers where Covaxin started for 45+</summary>
         [HttpGet("Centers/45/Covaxin")]
-        public async Task<IList<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin()
+        public async Task<IActionResult> GetBangaloreCenterFor45yrsCovaxin()
         {
             var response = await _vaxoManager.GetBangaloreCenterFor45yrsCovaxin();
             if (response == null)
                 await BuildHttpResponseForNotFound("Centers not found");
-            return response;
+            return Ok(response);
         }
 
        

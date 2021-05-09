@@ -24,19 +24,17 @@ namespace Vaxometer.Repository
             _logger = loggerFactory.CreateLogger<CowinRepository>();
         }
 
-        public async Task<CentersData> GetCentersForDistrict_294_265()
+        public async Task<CentersData> GetCentersForDistrict_294_265() //276 for Rural Blr
         {
-
-            var vaccineCenters1 = new CentersData();
-            var vaccineCenters2 = new CentersData();
-
             try
             {
 #if DEBUG
                 return GetMockData();
 #endif
 
-
+                var vaccineCenters1 = new CentersData();
+                var vaccineCenters2 = new CentersData();
+                var vaccineCenters3 = new CentersData();
 
                 var _httpClient = _httpClientFactory.CreateClient();
                 var getDate = DateTime.Now.ToString("dd-MM-yyyy");
@@ -56,8 +54,17 @@ namespace Vaxometer.Repository
                     }
                 }
 
+                using (var response = await _httpClient.GetAsync(_applicationUrls.CanlendarUrlByDistrict + "276" + "&date=" + getDate))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        vaccineCenters3 = JsonConvert.DeserializeObject<CentersData>(response.Content.ReadAsStringAsync().Result);
+                    }
+                }
+
                 if ((vaccineCenters1.Centers != null && vaccineCenters1.Centers.Any()) ||
-                    (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any()))
+                    (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any()) ||
+                    (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any()))
                 {
                     var vaccineCenters = new CentersData()
                     {
@@ -67,6 +74,9 @@ namespace Vaxometer.Repository
                         vaccineCenters.Centers.Concat(vaccineCenters1.Centers);
                     if (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any())
                         vaccineCenters.Centers.Concat(vaccineCenters2.Centers);
+                    if (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any())
+                        vaccineCenters.Centers.Concat(vaccineCenters3.Centers);
+
                     return vaccineCenters;
                 }
             }
