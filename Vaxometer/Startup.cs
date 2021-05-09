@@ -38,6 +38,7 @@ namespace Vaxometer
             services.AddHttpContextAccessor();
             services.AddHttpClient();
             services.AddOptions();
+            services.AddMemoryCache();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMongoOperations(Configuration);
             services.AddMongoOperations(Configuration);

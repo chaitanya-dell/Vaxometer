@@ -63,30 +63,35 @@ namespace Vaxometer.MongoOperations.DataModels
         public string block_name { get; set; }
         public int pincode { get; set; }
         public int lat { get; set; }
+        [BsonElement("long")]
         public int @long { get; set; }
         public string from { get; set; }
         public string to { get; set; }
         public string fee_type { get; set; }
-        public IList<Sessions> sessions { get; set; }
-        public IList<Vaccine_fees> vaccine_fees { get; set; }
+        public List<Sessions> sessions { get; set; }
+        public List<Vaccine_fees> vaccine_fees { get; set; }
 
     }
 
     [BsonCollection("Sessions")]
     public class Sessions
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.String)]
         public string session_id { get; set; }
         public string date { get; set; }
         public int available_capacity { get; set; }
         public int min_age_limit { get; set; }
         public string vaccine { get; set; }
-        public IList<string> slots { get; set; }
+        public List<string> slots { get; set; }
 
     }
 
     [BsonCollection("Vaccine_fees")]
     public class Vaccine_fees
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.String)]
         public string vaccine { get; set; }
         public string fee { get; set; }
     }

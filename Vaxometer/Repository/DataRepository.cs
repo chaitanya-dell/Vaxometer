@@ -28,34 +28,24 @@ namespace Vaxometer.Repository
             _mapper = mapper;
         }
 
-        public bool Save(CentersData request)
+        public async Task<bool> Save(CentersData request)
         {
             try
             {
                 _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
                 var centersCollection = new List<MongoOperations.DataModels.Centers>();
-                foreach (var item in request.Centers)
-                {
-                    var center = new MongoOperations.DataModels.Centers()
-                    {
-                        block_name = item.block_name,
-                        center_id = item.center_id,
-                        district_name = item.district_name,
-                        fee_type = item.fee_type,
-                        name = item.name,
-                        pincode = item.pincode,
-                        state_name = item.state_name
-                    };
-                    centersCollection.Add(center);
-                }
-                _mongoCenters.CreateOrUpdate(centersCollection);
+              
+                foreach (var center in request.Centers)
+                    centersCollection.Add(_mapper.Map<MongoOperations.DataModels.Centers>(center));
+                await _mongoCenters.CreateOrUpdate(centersCollection);
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogTrace(ex.Message, ex);
-                throw ex;
+               
             }
+            return false;
         }
 
 
@@ -69,10 +59,25 @@ namespace Vaxometer.Repository
             return collection;
         }
 
-        private IEnumerable<Models.Centers> MapToApiModel(IEnumerable<MongoOperations.DataModels.Centers> dataModel)
+        public async Task<IEnumerable<Models.Centers>> GetBangaloreCenterFor18yrs()
         {
-            
-            throw new NotImplementedException();
+            _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+            var dataModel = await _mongoCenters.GetBangaloreCenterFor18yrs();
+            var collection = new List<Models.Centers>();
+            foreach (var doc in dataModel)
+                collection.Add(_mapper.Map<Models.Centers>(doc));
+            return collection;
+        }
+
+
+        public async Task<IEnumerable<Models.Centers>> GetBangaloreCenterFor45yrs()
+        {
+            _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+            var dataModel = await _mongoCenters.GetBangaloreCenterFor45yrs();
+            var collection = new List<Models.Centers>();
+            foreach (var doc in dataModel)
+                collection.Add(_mapper.Map<Models.Centers>(doc));
+            return collection;
         }
 
         public bool CreateOne(MongoOperations.DataModels.Centers request)
@@ -105,27 +110,20 @@ namespace Vaxometer.Repository
             }
         }
 
-        public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor18yrs()
-        {
-
-            throw new NotImplementedException();
-        }
+       
 
         public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor18yrsCovaxin()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor45yrs()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor45yrsCovaxin()
         {
             throw new NotImplementedException();
         }
 
-        
+    
     }
 }

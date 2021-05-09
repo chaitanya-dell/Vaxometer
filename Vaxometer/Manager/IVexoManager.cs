@@ -13,11 +13,11 @@ namespace Vaxometer.Manager
 
         public Task<IEnumerable<Centers>> GetCentersByPinCode(int pincode);
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrs();
+        public Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrs();
 
         public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin();
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrs();
+        public Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrs();
 
         public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin();
     }

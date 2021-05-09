@@ -38,15 +38,25 @@ namespace Vaxometer.Controllers
 
         /// <summary>Gets the List of Centers where vaccination started for 18+</summary>
         [HttpGet("Centers/18")]
-        public async Task<IList<VaccineCenter>> GetBangaloreCenterFor18yrs()
+        public async Task<IActionResult> GetBangaloreCenterFor18yrs()
         {
             var response = await _vaxoManager.GetBangaloreCenterFor18yrs();
             if (response == null)
                 await BuildHttpResponseForNotFound("Centers not found");
-            return response;
+            return Ok(response);
         }
 
-        /// <summary>Gets the List of Centers where Covaxin started for 18+</summary>
+        /// <summary>Gets the List of Centers where vaccination started for 45+</summary>
+        [HttpGet("Centers/45/")]
+        public async Task<IActionResult> GetBangaloreCenterFor45yrs()
+        {
+            var response = await _vaxoManager.GetBangaloreCenterFor45yrs();
+            if (response == null)
+                await BuildHttpResponseForNotFound("Centers not found");
+            return Ok(response);
+        }
+
+        /// <summary> NOT IMPLEMENTED : Gets the List of Centers where Covaxin started for 18+</summary>
         [HttpGet("Centers/18/Covaxin")]
         public async Task<IList<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin()
         {
@@ -56,16 +66,7 @@ namespace Vaxometer.Controllers
             return response;
         }
 
-        /// <summary>Gets the List of Centers where vaccination started for 45+</summary>
-        [HttpGet("Centers/45/")]
-        public async Task<IList<VaccineCenter>> GetBangaloreCenterFor45yrs()
-        {
-            var response = await _vaxoManager.GetBangaloreCenterFor45yrs();
-            if (response == null)
-                await BuildHttpResponseForNotFound("Centers not found");
-            return response;
-        }
-
+       
         /// <summary>Gets the List of Centers where Covaxin started for 45+</summary>
         [HttpGet("Centers/45/Covaxin")]
         public async Task<IList<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin()

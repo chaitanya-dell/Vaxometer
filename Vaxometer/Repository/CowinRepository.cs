@@ -81,12 +81,12 @@ namespace Vaxometer.Repository
         {
             var session = new Sessions()
             {
-                session_id = "8c096da1-b6b6-4fd4-a2a1-b9610807f16a",
-                date = "08-05-2021",
-                available_capacity = 49,
+                session_id = "82d2723c-5760-40a4-97ef-26628458a831",
+                date = "09-05-2021",
+                available_capacity = 10,
                 min_age_limit = 45,
-                vaccine = "COVISHIELD",
-                slots = new List<string>() { "09:00AM-11:00AM","11:00AM-01:00PM"}
+                vaccine = "COVAXIN",
+                slots = new List<string>() { "09:00AM-11:00AM","12:00AM-01:00PM"}
             };
             var sessions = new List<Sessions>
             {
@@ -95,8 +95,8 @@ namespace Vaxometer.Repository
 
             var vaccine_fee = new Vaccine_fees()
             {
-                vaccine = "COVISHIELD",
-                fee = "1000"
+                vaccine = "COVAXIN",
+                fee = "2000"
             };
             var vaccine_fees = new List<Vaccine_fees>
             {
@@ -105,16 +105,18 @@ namespace Vaxometer.Repository
 
             var center = new Centers()
             {
-                center_id = 275844,
-                name = "Ooriguampete PHC",
-                address = "Oorigaumpete UPHC,Near Primary School Bangarapete",
+                center_id = 557647,
+                name = "SUGUNA HOSPITAL",
+                address = "DR RAJ KUMAR ROAD4TH N BLOCK RAJAJINAGAR",
                 state_name = "Karnataka",
-                district_name = "Kolar",
-                block_name = "Bangarapete",
-                pincode = 563121,
+                district_name = "BBMP",
+                block_name = "West",
+                pincode = 560010,
                 lat = 12,
-                @long = 78,
-                fee_type = "Free",
+                @long = 77,
+                from = "09:00:00",
+                to = "17:00:00",
+                fee_type = "Paid",
                 sessions = sessions,
                 vaccine_fees = vaccine_fees
             };

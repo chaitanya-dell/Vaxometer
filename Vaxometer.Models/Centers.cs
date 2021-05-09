@@ -17,8 +17,8 @@ namespace Vaxometer.Models
         public string from { get; set; }
         public string to { get; set; }
         public string fee_type { get; set; }
-        public IList<Sessions> sessions { get; set; }
-        public IList<Vaccine_fees> vaccine_fees { get; set; }
+        public List<Sessions> sessions { get; set; }
+        public List<Vaccine_fees> vaccine_fees { get; set; }
 
     }
 
@@ -29,7 +29,7 @@ namespace Vaxometer.Models
         public int available_capacity { get; set; }
         public int min_age_limit { get; set; }
         public string vaccine { get; set; }
-        public IList<string> slots { get; set; }
+        public List<string> slots { get; set; }
 
     }
     public class Vaccine_fees

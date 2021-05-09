@@ -9,12 +9,13 @@ namespace Vaxometer.MongoOperations
 { 
     public interface IMongoRepository<T> where T : ICenter
     {
-        void CreateOrUpdate(List<T> collection);
+        Task CreateOrUpdate(List<T> collection);
         void Create(T item);
         void CreateMany(List<T> items);
 
         Task<IEnumerable<T>> CentersByPinCode(int pincode);
-
+        Task<IEnumerable<T>> GetBangaloreCenterFor18yrs();
+        Task<IEnumerable<T>> GetBangaloreCenterFor45yrs();
 
         IQueryable<T> AsQueryable();
 
@@ -30,7 +31,6 @@ namespace Vaxometer.MongoOperations
         Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression);
 
      
-
         Task<T> FindByIdAsync(string id);
 
         void InsertOne(T document);
@@ -44,6 +44,6 @@ namespace Vaxometer.MongoOperations
         void ReplaceOne(T document);
 
         Task ReplaceOneAsync(T document);
-
+        
     }
 }

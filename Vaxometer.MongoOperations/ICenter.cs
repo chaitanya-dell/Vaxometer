@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vaxometer.MongoOperations.DataModels;
 
 namespace Vaxometer.MongoOperations
 {
@@ -29,8 +30,12 @@ namespace Vaxometer.MongoOperations
 
         [BsonElement("pincode")]
         int pincode { get; set; }
-        // public int lat { get; set; }
-        //public int long { get; set; }
+
+        [BsonElement("lat")]
+        int @lat { get; set; }
+
+        [BsonElement("long")]
+        int @long { get; set; }
 
         [BsonElement("from")]
         string from { get; set; }
@@ -41,11 +46,11 @@ namespace Vaxometer.MongoOperations
         [BsonElement("fee_type")]
         string fee_type { get; set; }
 
-        //[BsonElement("sessions")]
-        //IList<Sessions> sessions { get; set; }
+        [BsonElement("sessions")]
+        List<Sessions> sessions { get; set; }
 
-        //[BsonElement("vaccine_fees")]
-        //IList<Vaccine_fees> vaccine_fees { get; set; }
+        [BsonElement("vaccine_fees")]
+        List<Vaccine_fees> vaccine_fees { get; set; }
     }
 
 

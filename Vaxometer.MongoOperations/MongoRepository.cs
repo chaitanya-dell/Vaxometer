@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Vaxometer.MongoOperations.DbSettings;
 using Vaxometer.MongoOperations.DataModels;
+using System.Runtime.CompilerServices;
 
 namespace Vaxometer.MongoOperations
 {
@@ -30,23 +31,68 @@ namespace Vaxometer.MongoOperations
                 .FirstOrDefault())?.CollectionName;
         }
 
-        public void CreateOrUpdate(List<T> collection)
+        public async Task CreateOrUpdate(List<T> collection)
         {
             foreach (var d in collection)
             {
-                _collection.UpdateOne(x =>
-              x.center_id == d.center_id,
-              Builders<T>.Update
-              .Set(p => p.block_name, d.block_name)
-              .Set(p => p.center_id, d.center_id)
-              .Set(p => p.district_name, d.district_name)
-              .Set(p => p.fee_type, d.name)
-              .Set(p => p.name, d.name)
-              .Set(p => p.pincode, d.pincode)
-              .Set(p => p.state_name, d.state_name),
-              new UpdateOptions { IsUpsert = true });;
+                await _collection.UpdateOneAsync<T>(x => x.center_id == d.center_id, 
+                    Builders<T>.Update
+                    .Set(p => p.block_name, d.block_name)
+                    .Set(p => p.center_id, d.center_id)
+                    .Set(p => p.district_name, d.district_name)
+                    .Set(p => p.fee_type, d.fee_type)
+                    .Set(p => p.name, d.name)
+                    .Set(p => p.pincode, d.pincode)
+                    .Set(p => p.state_name, d.state_name)
+                    .Set(p => p.from, d.from)
+                      .Set(p => p.to, d.to),
+                     new UpdateOptions { IsUpsert = true });
+
+                foreach(var s in d.sessions)
+                {
+                    
+                    //var filter = Builders<T>.Filter.Eq(x=>x.center_id, d.center_id) & Builders<T>.Filter.ElemMatch(doc => doc.sessions, el => el.session_id == s.session_id);
+                    //var secondFilter = filter.And(
+                    //    filter.Eq(x => x.center_id, d.center_id),
+                    //    filter.ElemMatch(x => x.sessions, c => c.session_id == s.session_id)
+                    //    );
+
+                    var filter = Builders<T>.Filter.And(
+                        Builders<T>.Filter.Eq(x => x.center_id, d.center_id),
+                        Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.session_id == s.session_id));
+
+                    var update = Builders<T>.Update
+                         .Set(p => p.sessions[-1].available_capacity, s.available_capacity)
+                         .Set(p => p.sessions[-1].date, s.date)
+                         .Set(p => p.sessions[-1].min_age_limit, s.min_age_limit)
+                         //.Set(p => p.sessions[-1].slots, s.slots)
+                         .Set(p => p.sessions[-1].vaccine, s.vaccine);
+
+                    var session = _collection.Find(filter).SingleOrDefault();
+                    await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
+                    
+                }
+
+                foreach (var v in d.vaccine_fees)
+                {
+                    var filter = Builders<T>.Filter;
+                    var secondFilter = filter.And(
+                        filter.Eq(x => x.center_id, d.center_id),
+                        filter.ElemMatch(x => x.vaccine_fees, c => c.vaccine == v.vaccine)
+                        );
+
+                    var update = Builders<T>.Update
+                         .Set(p => p.vaccine_fees[-1].fee, v.fee);
+                         
+                    var vacc = _collection.Find(secondFilter).SingleOrDefault();
+                    await _collection.UpdateOneAsync(secondFilter, update, new UpdateOptions { IsUpsert = true });
+                }
             }
+         
         }
+
+       
+
 
         public void Create(T item)
         {
@@ -61,24 +107,25 @@ namespace Vaxometer.MongoOperations
         public async Task<IEnumerable<T>> CentersByPinCode(int pincode)
         {
             var builder = Builders<T>.Filter;
-            var query = builder.Eq("pincode", pincode); 
+            var query = builder.Eq("pincode", pincode);
             return await _collection.Find(query).ToListAsync();
         }
 
-
-
-
-        public virtual IEnumerable<Centers> GetBangaloreCenterFor18yrs()
+        public async Task<IEnumerable<T>> GetBangaloreCenterFor18yrs()
         {
-            ////var filter = Builders<BsonDocument>.Filter.Eq("min_age_limit", 18);
-            ////var filter = Builders<T>.Filter.Eq(doc => doc.Id, objectId);
-            //var filter = Builders<Sessions>.Filter.Where(new[]
-            //{
-            //    new ExpressionFilterDefinition<Sessions>(x => x.min_age_limit == 18),
-            //});
-            //return _collection.Find(filter).ToEnumerable();
-            throw new NotImplementedException();
+            var builder = Builders<T>.Filter;
+            var filter = builder.ElemMatch(x => x.sessions, Builders<Sessions>.Filter.Eq("min_age_limit", 18));
+            return await _collection.Find(filter).ToListAsync();
         }
+
+        public async Task<IEnumerable<T>> GetBangaloreCenterFor45yrs()
+        {
+            var filter = Builders<T>.Filter.ElemMatch(x => x.sessions, c => c.min_age_limit == 45);
+            return await _collection.Find(filter).ToListAsync();
+        }
+
+
+     
 
         public virtual IEnumerable<T> FilterBy(Expression<Func<T, bool>> filterExpression)
         {

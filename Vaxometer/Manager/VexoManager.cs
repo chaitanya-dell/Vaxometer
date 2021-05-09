@@ -26,11 +26,19 @@ namespace Vaxometer.Manager
 
         public async Task<bool> RefershData()
         {
-            var centersData = await _cowinRepository.GetCentersForDistrict_294_265();
-#if DEBUG
-            return true;
-#endif
-            return _dataRepository.Save(centersData);
+            try
+            {
+                var centersData = await _cowinRepository.GetCentersForDistrict_294_265();
+                //#if DEBUG
+                //            return true;
+                //#endif
+                return await _dataRepository.Save(centersData);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return false;
         }
 
         public async Task<IEnumerable<Centers>> GetCentersByPinCode(int pincode)
@@ -38,10 +46,14 @@ namespace Vaxometer.Manager
             return await _dataRepository.CentersByPinCode(pincode);
         }
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrs()
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrs()
         {
-            
-            throw new NotImplementedException();
+            return await _dataRepository.GetBangaloreCenterFor18yrs();
+        }
+
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrs()
+        {
+            return await _dataRepository.GetBangaloreCenterFor45yrs();
         }
 
         public Task<List<VaccineCenter>> GetBangaloreCenterFor18yrsCovaxin()
@@ -49,11 +61,7 @@ namespace Vaxometer.Manager
             throw new NotImplementedException();
         }
 
-        public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrs()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Task<List<VaccineCenter>> GetBangaloreCenterFor45yrsCovaxin()
         {
             throw new NotImplementedException();
