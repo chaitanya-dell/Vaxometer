@@ -72,20 +72,20 @@ namespace Vaxometer.Repository
                     };
                     if (vaccineCenters1.Centers != null && vaccineCenters1.Centers.Any())
                     {
-                        var availableCapacityCentre = vaccineCenters1.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
-                        vaccineCenters.Centers.AddRange(availableCapacityCentre);
+                        //var availableCapacityCentre = vaccineCenters1.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
                     }
 
                     if (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any())
                     {
-                        var availableCapacityCentre = vaccineCenters2.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
-                        vaccineCenters.Centers.AddRange(availableCapacityCentre);
+                        //var availableCapacityCentre = vaccineCenters2.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
                     }
 
                     if (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any())
                     {
-                        var availableCapacityCentre = vaccineCenters3.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
-                        vaccineCenters.Centers.AddRange(availableCapacityCentre);
+                        //var availableCapacityCentre = vaccineCenters3.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
 
                     }
 

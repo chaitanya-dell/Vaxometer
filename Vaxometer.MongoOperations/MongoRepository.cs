@@ -54,8 +54,8 @@ namespace Vaxometer.MongoOperations
 
                 foreach (var s in d.sessions)
                 {
-                    if (s.available_capacity > 0)
-                    {
+                    //if (s.available_capacity > 0)
+                    //{
 
 
                         var filter = Builders<T>.Filter.And(
@@ -72,7 +72,7 @@ namespace Vaxometer.MongoOperations
 
                         var session = _collection.Find(filter).SingleOrDefault();
                         await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
-                    }
+                    //}
 
                 }
 
