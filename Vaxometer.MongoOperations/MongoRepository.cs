@@ -49,7 +49,8 @@ namespace Vaxometer.MongoOperations
                     .Set(p => p.to, d.to)
                     .Set(p => p.sessions, d.sessions)
                     .Set(p => p.vaccine_fees, d.vaccine_fees)
-                    .Set(p => p.CreatedModifiedAt, DateTime.Now),
+                    .Set(p => p.CreatedModifiedAt, DateTime.Now)
+                    .Set(p=> p.address, d.address),
                      new UpdateOptions { IsUpsert = true });
 
                 foreach (var s in d.sessions)

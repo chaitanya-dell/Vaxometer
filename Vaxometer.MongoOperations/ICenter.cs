@@ -52,6 +52,7 @@ namespace Vaxometer.MongoOperations
         [BsonElement("vaccine_fees")]
         List<Vaccine_fees> vaccine_fees { get; set; }
         DateTime CreatedModifiedAt { get; set; }
+        string address { get; set; }
     }
 
 

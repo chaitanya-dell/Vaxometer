@@ -22,6 +22,8 @@ namespace Vaxometer.Controllers
             _vaccineManager = vaccineManager;
             _httpContextAccessor = httpContextAccessor;
         }
+
+#if DEBUG
         [HttpGet("Get")]
         public async Task<IActionResult> GetVaccineCenters([FromQuery] int age, [FromQuery] decimal latitude,
             [FromQuery] decimal longitude, [FromQuery] long pincode, [FromQuery] string vaccineType)
@@ -31,6 +33,9 @@ namespace Vaxometer.Controllers
                 await BuildHttpResponseForNotFound("Centers not found");
             return Ok(response);
         }
+
+
+#endif
         private async Task BuildHttpResponseForNotFound(string displayMessage)
         {
             _httpContextAccessor.HttpContext.Response.ContentType = "application/json";

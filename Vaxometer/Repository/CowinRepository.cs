@@ -79,13 +79,13 @@ namespace Vaxometer.Repository
                     if (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any())
                     {
                         //var availableCapacityCentre = vaccineCenters2.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
-                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
+                        vaccineCenters.Centers.AddRange(vaccineCenters2.Centers);
                     }
 
                     if (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any())
                     {
                         //var availableCapacityCentre = vaccineCenters3.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
-                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
+                        vaccineCenters.Centers.AddRange(vaccineCenters3.Centers);
 
                     }
 
