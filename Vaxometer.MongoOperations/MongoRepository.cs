@@ -117,18 +117,26 @@ namespace Vaxometer.MongoOperations
 
         public async Task<IEnumerable<T>> GetBangaloreCenterFor18yrs()
         {
-          
-            var filter = Builders<T>.Filter.And(
-                       Builders<T>.Filter.Eq(x => x.center_id, 294) | Builders<T>.Filter.Eq(x => x.center_id, 265) | Builders<T>.Filter.Eq(x => x.center_id, 276),
-                       Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.min_age_limit == 18));
-            var vacc = _collection.Find(filter).SingleOrDefault();
+            var builder = Builders<T>.Filter;
+            var filter =  builder.ElemMatch(x => x.sessions, y => y.min_age_limit == 18);
             return await _collection.Find(filter).ToListAsync();
+
+
+            //Commenting this code as there will no center with 294, 265 and 276
+
+            //var filter = Builders<T>.Filter.And(
+            //           Builders<T>.Filter.Eq(x => x.center_id, 294) | Builders<T>.Filter.Eq(x => x.center_id, 265) | Builders<T>.Filter.Eq(x => x.center_id, 276),
+            //           Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.min_age_limit == 18));
+            //var vacc = _collection.Find(filter).SingleOrDefault();
+            //return await _collection.Find(filter).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetBangaloreCenterFor45yrs()
         {
             var filter = Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.min_age_limit == 45);
-            var vacc = _collection.Find(filter).SingleOrDefault();
+
+            //Commenting this line as there are more than one records and SingleOrDefault breaking application (More than one sequence.)
+            //var vacc = _collection.Find(filter).SingleOrDefault();
             return await _collection.Find(filter).ToListAsync();
         }
 
