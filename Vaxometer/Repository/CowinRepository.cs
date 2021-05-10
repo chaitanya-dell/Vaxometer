@@ -92,11 +92,11 @@ namespace Vaxometer.Repository
             var session = new Sessions()
             {
                 session_id = "82d2723c-5760-40a4-97ef-26628458a831",
-                date = "09-05-2021",
-                available_capacity = 10,
-                min_age_limit = 45,
+                date = "10-05-2021",
+                available_capacity = 100,
+                min_age_limit = 18,
                 vaccine = "COVAXIN",
-                slots = new List<string>() { "09:00AM-11:00AM","12:00AM-01:00PM"}
+                slots = new List<string>() { "09:00AM-11:00AM","12:00AM-01:00PM", "3:00PM-05:00PM" }
             };
             var sessions = new List<Sessions>
             {
@@ -106,7 +106,7 @@ namespace Vaxometer.Repository
             var vaccine_fee = new Vaccine_fees()
             {
                 vaccine = "COVAXIN",
-                fee = "2000"
+                fee = "700"
             };
             var vaccine_fees = new List<Vaccine_fees>
             {
@@ -121,12 +121,12 @@ namespace Vaxometer.Repository
                 state_name = "Karnataka",
                 district_name = "BBMP",
                 block_name = "West",
-                pincode = 560010,
+                pincode = 560103,
                 lat = 12,
                 @long = 77,
                 from = "09:00:00",
                 to = "17:00:00",
-                fee_type = "Paid",
+                fee_type = "paid",
                 sessions = sessions,
                 vaccine_fees = vaccine_fees
             };
