@@ -71,11 +71,11 @@ namespace Vaxometer.Repository
                         Centers = new List<Centers>()
                     };
                     if (vaccineCenters1.Centers != null && vaccineCenters1.Centers.Any())
-                        vaccineCenters.Centers.Concat(vaccineCenters1.Centers);
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
                     if (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any())
-                        vaccineCenters.Centers.Concat(vaccineCenters2.Centers);
+                        vaccineCenters.Centers.AddRange(vaccineCenters2.Centers);
                     if (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any())
-                        vaccineCenters.Centers.Concat(vaccineCenters3.Centers);
+                        vaccineCenters.Centers.AddRange(vaccineCenters3.Centers);
 
                     return vaccineCenters;
                 }

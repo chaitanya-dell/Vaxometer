@@ -35,7 +35,7 @@ namespace Vaxometer.MongoOperations
         {
             foreach (var d in collection)
             {
-                await _collection.UpdateOneAsync<T>(x => x.center_id == d.center_id, 
+                await _collection.UpdateOneAsync<T>(x => x.center_id == d.center_id,
                     Builders<T>.Update
                     .Set(p => p.block_name, d.block_name)
                     .Set(p => p.center_id, d.center_id)
@@ -45,12 +45,14 @@ namespace Vaxometer.MongoOperations
                     .Set(p => p.pincode, d.pincode)
                     .Set(p => p.state_name, d.state_name)
                     .Set(p => p.from, d.from)
-                      .Set(p => p.to, d.to),
+                    .Set(p => p.to, d.to)
+                    .Set(p => p.sessions, d.sessions)
+                    .Set(p => p.vaccine_fees, d.vaccine_fees),
                      new UpdateOptions { IsUpsert = true });
 
-                foreach(var s in d.sessions)
+                foreach (var s in d.sessions)
                 {
-                    
+
                     //var filter = Builders<T>.Filter.Eq(x=>x.center_id, d.center_id) & Builders<T>.Filter.ElemMatch(doc => doc.sessions, el => el.session_id == s.session_id);
                     //var secondFilter = filter.And(
                     //    filter.Eq(x => x.center_id, d.center_id),
@@ -62,15 +64,16 @@ namespace Vaxometer.MongoOperations
                         Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.session_id == s.session_id));
 
                     var update = Builders<T>.Update
+                         .Set(p => p.sessions[-1].session_id, s.session_id)
                          .Set(p => p.sessions[-1].available_capacity, s.available_capacity)
                          .Set(p => p.sessions[-1].date, s.date)
                          .Set(p => p.sessions[-1].min_age_limit, s.min_age_limit)
-                         //.Set(p => p.sessions[-1].slots, s.slots)
+                         .Set(p => p.sessions[-1].slots, s.slots)
                          .Set(p => p.sessions[-1].vaccine, s.vaccine);
 
                     var session = _collection.Find(filter).SingleOrDefault();
                     await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
-                    
+
                 }
 
                 foreach (var v in d.vaccine_fees)
@@ -82,16 +85,17 @@ namespace Vaxometer.MongoOperations
                         );
 
                     var update = Builders<T>.Update
+                         .Set(p => p.vaccine_fees[-1].vaccine, v.vaccine)
                          .Set(p => p.vaccine_fees[-1].fee, v.fee);
-                         
+
                     var vacc = _collection.Find(secondFilter).SingleOrDefault();
                     await _collection.UpdateOneAsync(secondFilter, update, new UpdateOptions { IsUpsert = true });
                 }
             }
-         
+
         }
 
-       
+
 
 
         public void Create(T item)
@@ -125,7 +129,7 @@ namespace Vaxometer.MongoOperations
         }
 
 
-     
+
 
         public virtual IEnumerable<T> FilterBy(Expression<Func<T, bool>> filterExpression)
         {
@@ -137,7 +141,7 @@ namespace Vaxometer.MongoOperations
             return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
         }
 
-        
+
 
         public virtual Task<T> FindByIdAsync(string id)
         {
