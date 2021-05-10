@@ -47,7 +47,7 @@ namespace Vaxometer
             services.AddScoped<IVexoManager, VexoManager>();
             services.AddScoped<ICowinRepository, CowinRepository>();
             services.AddScoped<IDataRepository, DataRepository>();
-            services.AddHostedService<BackgroundDataRefershTask>();
+            //services.AddHostedService<BackgroundDataRefershTask>();
 
             services.AddSwaggerGen(options =>
             {
