@@ -8,6 +8,7 @@ using Vaxometer.MongoOperations.DbSettings;
 using Vaxometer.MongoOperations.DataModels;
 using Vaxometer.Models;
 using AutoMapper;
+using Centers = Vaxometer.Models.Centers;
 
 namespace Vaxometer.Repository
 {
@@ -110,6 +111,23 @@ namespace Vaxometer.Repository
             }
         }
 
+        public async Task<IEnumerable<Centers>> GetVaccineCenters(int age, decimal latitude, decimal longitude, long pincode, string vaccineType)
+        {
+            try
+            {
+                _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+               var dataModel = await _mongoCenters.GetVaccineCenters(age,latitude,longitude,pincode,vaccineType);
+               var collection = new List<Models.Centers>();
+               foreach (var doc in dataModel)
+                   collection.Add(_mapper.Map<Models.Centers>(doc));
+               return collection;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogTrace(ex.Message, ex);
+                throw ex;
+            }
+        }
         Task<IEnumerable<Models.Centers>> IDataRepository.GetBangaloreCenterFor18yrsCovaxin()
         {
             throw new NotImplementedException();
@@ -119,6 +137,8 @@ namespace Vaxometer.Repository
         {
             throw new NotImplementedException();
         }
+
+
 
         public Task<List<MongoOperations.DataModels.Centers>> GetBangaloreCenterFor18yrsCovaxin()
         {

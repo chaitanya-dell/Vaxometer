@@ -45,6 +45,7 @@ namespace Vaxometer
             services.Configure<ApplicationUrls>(Configuration.GetSection(nameof(ApplicationUrls)));
             services.AddSingleton<IApplicationUrls>(x => x.GetRequiredService<IOptions<ApplicationUrls>>().Value);
             services.AddScoped<IVexoManager, VexoManager>();
+            services.AddScoped<IVaccineManager, VaccineManager>();
             services.AddScoped<ICowinRepository, CowinRepository>();
             services.AddScoped<IDataRepository, DataRepository>();
             services.AddHostedService<BackgroundDataRefershTask>();

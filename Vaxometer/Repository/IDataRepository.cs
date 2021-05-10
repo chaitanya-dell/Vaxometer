@@ -17,5 +17,8 @@ namespace Vaxometer.Repository
         public Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrs();
         Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrsCovaxin();
         Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrsCovaxin();
+
+        Task<IEnumerable<Centers>> GetVaccineCenters(int age, decimal latitude, decimal longitude, long pincode,
+            string vaccineType);
     }
 }
