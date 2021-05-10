@@ -25,10 +25,11 @@ namespace Vaxometer.MongoOperations
 
         private protected string GetCollectionName(Type documentType)
         {
-            return ((BsonCollectionAttribute)documentType.GetCustomAttributes(
+            var collectionName = ((BsonCollectionAttribute)documentType.GetCustomAttributes(
                     typeof(BsonCollectionAttribute),
                     true)
                 .FirstOrDefault())?.CollectionName;
+            return collectionName;
         }
 
         public async Task CreateOrUpdate(List<T> collection)
@@ -110,15 +111,14 @@ namespace Vaxometer.MongoOperations
 
         public async Task<IEnumerable<T>> CentersByPinCode(int pincode)
         {
-            var builder = Builders<T>.Filter;
-            var query = builder.Eq("pincode", pincode);
-            return await _collection.Find(query).ToListAsync();
+            var result = await _collection.Find(x => x.pincode == pincode).ToListAsync();
+            return result;
         }
 
         public async Task<IEnumerable<T>> GetBangaloreCenterFor18yrs()
         {
             var builder = Builders<T>.Filter;
-            var filter = builder.ElemMatch(x => x.sessions, Builders<Sessions>.Filter.Eq("min_age_limit", 18));
+            var filter = builder.ElemMatch(x => x.sessions, y => y.min_age_limit == 18);
             return await _collection.Find(filter).ToListAsync();
         }
 

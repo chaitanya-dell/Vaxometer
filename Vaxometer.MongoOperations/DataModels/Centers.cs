@@ -53,7 +53,7 @@ namespace Vaxometer.MongoOperations.DataModels
     public class Centers : ICenter
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.String)]
         public ObjectId Id { get; set; }
         public int center_id { get; set; }
         public string name { get; set; }
