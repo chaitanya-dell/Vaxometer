@@ -7,7 +7,7 @@ namespace Vaxometer.Models
 
     public class CentersData
     {
-        public IList<Centers> Centers { get; set; }
+        public List<Centers> Centers { get; set; }
         
     }
 }
