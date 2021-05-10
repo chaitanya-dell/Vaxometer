@@ -15,7 +15,7 @@ namespace Vaxometer.MongoOperations
     public class MongoRepository<T> : IMongoRepository<T> where T : ICenter
     {
         private readonly IMongoCollection<T> _collection;
-
+        private const string COVISHIELD = "COVISHIELD";
         public MongoRepository(IVexoDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -208,6 +208,20 @@ namespace Vaxometer.MongoOperations
         public IQueryable<T> AsQueryable()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<T>> GetBangaloreCenterFor18yrsCoviShield()
+        {
+            var builder = Builders<T>.Filter;
+            var filter = builder.ElemMatch(x => x.sessions, y => y.min_age_limit == 18 && y.vaccine.ToLower() == COVISHIELD.ToLower());
+            return await _collection.Find(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetBangaloreCenterFor45yrsCovishield()
+        {
+            var builder = Builders<T>.Filter;
+            var filter = builder.ElemMatch(x => x.sessions, y => y.min_age_limit == 45 && y.vaccine.ToLower() == COVISHIELD.ToLower());
+            return await _collection.Find(filter).ToListAsync();
         }
     }
 }

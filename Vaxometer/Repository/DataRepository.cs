@@ -132,6 +132,24 @@ namespace Vaxometer.Repository
             throw new NotImplementedException();
         }
 
-       
+        public async Task<IEnumerable<Models.Centers>> GetBangaloreCenterFor18yrsCoviShield()
+        {
+            _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+            var dataModel = await _mongoCenters.GetBangaloreCenterFor18yrsCoviShield();
+            var collection = new List<Models.Centers>();
+            foreach (var doc in dataModel)
+                collection.Add(_mapper.Map<Models.Centers>(doc));
+            return collection;
+        }
+
+        public async Task<IEnumerable<Models.Centers>> GetBangaloreCenterFor45yrsCovishield()
+        {
+            _mongoCenters = new MongoRepository<MongoOperations.DataModels.Centers>(_settings);
+            var dataModel = await _mongoCenters.GetBangaloreCenterFor45yrsCovishield();
+            var collection = new List<Models.Centers>();
+            foreach (var doc in dataModel)
+                collection.Add(_mapper.Map<Models.Centers>(doc));
+            return collection;
+        }
     }
 }
