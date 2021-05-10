@@ -67,6 +67,14 @@ namespace Vaxometer.Manager
             return await _dataRepository.GetBangaloreCenterFor45yrsCovaxin();
         }
 
-      
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor18yrsCoviShield()
+        {
+            return await _dataRepository.GetBangaloreCenterFor18yrsCoviShield();
+        }
+
+        public async Task<IEnumerable<Centers>> GetBangaloreCenterFor45yrsCovishield()
+        {
+            return await _dataRepository.GetBangaloreCenterFor45yrsCovishield();
+        }
     }
 }

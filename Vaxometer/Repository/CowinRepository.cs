@@ -71,11 +71,23 @@ namespace Vaxometer.Repository
                         Centers = new List<Centers>()
                     };
                     if (vaccineCenters1.Centers != null && vaccineCenters1.Centers.Any())
+                    {
+                        //var availableCapacityCentre = vaccineCenters1.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
                         vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
+                    }
+
                     if (vaccineCenters2.Centers != null && vaccineCenters2.Centers.Any())
-                        vaccineCenters.Centers.AddRange(vaccineCenters2.Centers);
+                    {
+                        //var availableCapacityCentre = vaccineCenters2.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
+                    }
+
                     if (vaccineCenters3.Centers != null && vaccineCenters3.Centers.Any())
-                        vaccineCenters.Centers.AddRange(vaccineCenters3.Centers);
+                    {
+                        //var availableCapacityCentre = vaccineCenters3.Centers.Where(x => x.sessions.Any(x => x.available_capacity > 0)).ToList();
+                        vaccineCenters.Centers.AddRange(vaccineCenters1.Centers);
+
+                    }
 
                     return vaccineCenters;
                 }
@@ -95,8 +107,7 @@ namespace Vaxometer.Repository
                 date = "10-05-2021",
                 available_capacity = 100,
                 min_age_limit = 18,
-                vaccine = "COVAXIN",
-                slots = new List<string>() { "09:00AM-11:00AM","12:00AM-01:00PM", "3:00PM-05:00PM" }
+                vaccine = "COVAXIN"
             };
             var sessions = new List<Sessions>
             {
@@ -128,7 +139,9 @@ namespace Vaxometer.Repository
                 to = "17:00:00",
                 fee_type = "paid",
                 sessions = sessions,
-                vaccine_fees = vaccine_fees
+                vaccine_fees = vaccine_fees,
+                CreatedModifiedAt = DateTime.Now
+                
             };
             var centers = new List<Centers>
             {

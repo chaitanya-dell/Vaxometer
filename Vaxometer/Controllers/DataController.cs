@@ -41,9 +41,11 @@ namespace Vaxometer.Controllers
         }
 #endif
         /// <summary>Protected API. Requires API Key</summary>
-        [HttpPost("RefreshBlr")]
-        public IActionResult Upsert()
+        [HttpPost("Refresh/{centerCode}")]
+        public IActionResult Upsert(string centerCode)
         {
+            //if center code is BLR, then refresh 
+            //TODO: if centerCode is other than BLR
             var response = _vexoManager.RefershData();
             return Ok(response);
         }

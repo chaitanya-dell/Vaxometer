@@ -56,6 +56,26 @@ namespace Vaxometer.Controllers
             return Ok(response);
         }
 
+        /// <summary>Gets the List of Centers where vaccination where Covishield started for 18+</summary>
+        [HttpGet("Centers/18/Covishield")]
+        public async Task<IActionResult> GetBangaloreCenterFor18yrsCovishield()
+        {
+            var response = await _vaxoManager.GetBangaloreCenterFor18yrsCoviShield();
+            if (response == null)
+                await BuildHttpResponseForNotFound("Centers not found");
+            return Ok(response);
+        }
+
+        /// <summary>Gets the List of Centers where vaccination where Covishield started for 45+</summary>
+        [HttpGet("Centers/45/Covishield")]
+        public async Task<IActionResult> GetBangaloreCenterFor45yrsCovishield()
+        {
+            var response = await _vaxoManager.GetBangaloreCenterFor45yrsCovishield();
+            if (response == null)
+                await BuildHttpResponseForNotFound("Centers not found");
+            return Ok(response);
+        }
+
         /// <summary> NOT IMPLEMENTED : Gets the List of Centers where Covaxin started for 18+</summary>
         [HttpGet("Centers/18/Covaxin")]
         public async Task<IActionResult> GetBangaloreCenterFor18yrsCovaxin()
