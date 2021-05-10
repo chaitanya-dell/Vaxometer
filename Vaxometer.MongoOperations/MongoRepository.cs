@@ -139,7 +139,18 @@ namespace Vaxometer.MongoOperations
             return await _collection.Find(filter).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetVaccineCenters(int age, decimal latitude, decimal longitude, long pincode,
+            string vaccineType)
+        {
+            var filter1 = Builders<T>.Filter.ElemMatch(x => x.sessions, x => (age == 0 || x.min_age_limit == age) &&
+                                                                             string.IsNullOrEmpty(vaccineType) ||
+                                                                             x.vaccine == vaccineType);
+            var filter2 = Builders<T>.Filter.Where(x =>
+                ((latitude == 0 || longitude == 0) || (x.@long == longitude && x.lat == latitude)) &&
+                (pincode == 0 || x.pincode == pincode));
 
+            return await _collection.Find(filter1 | filter2).ToListAsync();
+        }
 
 
         public virtual IEnumerable<T> FilterBy(Expression<Func<T, bool>> filterExpression)

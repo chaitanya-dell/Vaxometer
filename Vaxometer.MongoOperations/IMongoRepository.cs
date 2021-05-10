@@ -17,6 +17,8 @@ namespace Vaxometer.MongoOperations
         Task<IEnumerable<T>> GetBangaloreCenterFor18yrs();
         Task<IEnumerable<T>> GetBangaloreCenterFor45yrs();
 
+        Task<IEnumerable<T>> GetVaccineCenters(int age, decimal latitude, decimal longitude, long pincode,
+            string vaccineType);
         Task<IEnumerable<T>> GetBangaloreCenterFor18yrsCoviShield();
         Task<IEnumerable<T>> GetBangaloreCenterFor45yrsCovishield();
 
