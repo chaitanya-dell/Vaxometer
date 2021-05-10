@@ -70,6 +70,7 @@ namespace Vaxometer.MongoOperations.DataModels
         public string fee_type { get; set; }
         public List<Sessions> sessions { get; set; }
         public List<Vaccine_fees> vaccine_fees { get; set; }
+        public DateTime CreatedModifiedAt { get; set; }
 
     }
 
@@ -83,7 +84,6 @@ namespace Vaxometer.MongoOperations.DataModels
         public int available_capacity { get; set; }
         public int min_age_limit { get; set; }
         public string vaccine { get; set; }
-        public List<string> slots { get; set; }
 
     }
 
