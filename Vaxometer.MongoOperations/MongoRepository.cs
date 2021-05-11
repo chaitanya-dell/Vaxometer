@@ -143,14 +143,21 @@ namespace Vaxometer.MongoOperations
         public async Task<IEnumerable<T>> GetVaccineCenters(int age, decimal latitude, decimal longitude, long pincode,
             string vaccineType)
         {
-            var filter1 = Builders<T>.Filter.ElemMatch(x => x.sessions, x => (age == 0 || x.min_age_limit == age) &&
-                                                                             string.IsNullOrEmpty(vaccineType) ||
-                                                                             x.vaccine == vaccineType);
-            var filter2 = Builders<T>.Filter.Where(x =>
-                ((latitude == 0 || longitude == 0) || (x.@long == longitude && x.lat == latitude)) &&
-                (pincode == 0 || x.pincode == pincode));
+            var filter1 = Builders<T>.Filter.Empty;
+            var filter2 = Builders<T>.Filter.Empty;
+            var filter3 = Builders<T>.Filter.Empty;
+            var filter4 = Builders<T>.Filter.Empty;
+            if (age > 0)
+                filter1 = Builders<T>.Filter.ElemMatch(x => x.sessions, x => (x.min_age_limit == age));
+            if (latitude != 0 && longitude != 0)
+                filter2 = Builders<T>.Filter.Where(x => (x.@long == longitude && x.lat == latitude));
+            if (pincode != 0)
+                filter3 = Builders<T>.Filter.Where(x => x.pincode == pincode);
+            if (!string.IsNullOrEmpty(vaccineType))
+                filter4 = Builders<T>.Filter.ElemMatch(x => x.sessions, x => x.vaccine == vaccineType);
 
-            return await _collection.Find(filter1 | filter2).ToListAsync();
+
+            return await _collection.Find(filter1 & filter2 & filter3 & filter4).ToListAsync();
         }
 
 
